@@ -5,20 +5,22 @@ public class QueueNode {
     private Vector<Integer> queue;
 
     public QueueNode(){
-        queue = new Vector<Integer>();
+
+        queue = new Vector<>();
     }
 
     public synchronized int sleep() throws InterruptedException {
-        if (queue.size() == 0){
+        if (this.queue.size() == 0){
             wait();
-            return queue.remove(0);
+            return this.queue.remove(0);
         }
         else
             return -1;
     }
 
-    public synchronized int wakeup(int tid){
-        queue.add(tid);
-        return 0;
+    public synchronized void wakeup(int tid){
+        this.queue.add(tid);
+        notifyAll();
+
     }
 }

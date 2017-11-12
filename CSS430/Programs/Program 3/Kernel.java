@@ -87,17 +87,19 @@ public class Kernel
 		return sysExec( ( String[] )args );
 	    case WAIT:
 			myTcb = scheduler.getMyTcb();// get the current thread id
-			int tid = myTcb.getTid();// let the current thread sleep in waitQueue under the
-			waitQueue.enqueueAndSleep(myTcb);// condition = this thread id
-			return OK; // return a child thread id who woke me up
+
+			try {												 // let the current thread sleep in waitQueue under the
+				return waitQueue.enqueueAndSleep(myTcb.getTid());// condition = this thread id
+			}catch(InterruptedException ie){}					 // return a child thread id who woke me up
+
 	    case EXIT:
+
 	    	myTcb = scheduler.getMyTcb();// get the current thread's parent id
-			int pid = myTcb.getPid();
-			int tid = myTcb.getTid();
-			waitQueue.dequeueAndWakeup(pid, tid);// search waitQueue for and wakes up the thread under the
-			// condition = the current thread's parent id
+			waitQueue.dequeueAndWakeup(myTcb.getPid(),myTcb.getTid());// search waitQueue for and wakes up the thread under the
+																	// condition = the current thread's parent id
 			scheduler.deleteThread();// tell the Scheduler to delete the current thread (since it is exiting)
 			return OK;
+
 	    case SLEEP:   // sleep a given period of milliseconds
 		scheduler.sleepThread( param ); // param = milliseconds
 		return OK;
