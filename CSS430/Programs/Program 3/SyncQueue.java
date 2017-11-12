@@ -18,10 +18,10 @@ public class SyncQueue {
         }
     }
 
-    public int enqueueAndSleep(int condition) throws InterruptedException {
+    public int enqueueAndSleep(int condition) {
 
 
-        if (condition > 0 && condition < queues.length) return queues[condition].sleep();
+        if (condition > 0 && condition < this.queues.length) return this.queues[condition].sleep();
         else return -1;
 
     }

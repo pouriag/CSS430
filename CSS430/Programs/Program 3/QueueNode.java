@@ -9,18 +9,19 @@ public class QueueNode {
         queue = new Vector<>();
     }
 
-    public synchronized int sleep() throws InterruptedException {
+    public synchronized int sleep() {
         if (this.queue.size() == 0){
-            wait();
-            return this.queue.remove(0);
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        else
-            return -1;
+        return this.queue.remove(0);
     }
 
     public synchronized void wakeup(int tid){
         this.queue.add(tid);
-        notifyAll();
-
+        this.notify();
     }
 }
