@@ -86,20 +86,14 @@ public class Kernel
 	    case EXEC:
 		return sysExec( ( String[] )args );
 	    case WAIT:
-	        if (scheduler.getMyTcb()!=null){
                 myTcb = scheduler.getMyTcb();
                 return waitQueue.enqueueAndSleep(myTcb.getTid());
-            }
-			return ERROR;
+
 	    case EXIT:
-            if (scheduler.getMyTcb()!=null){
                 myTcb = scheduler.getMyTcb();
                 waitQueue.dequeueAndWakeup(myTcb.getPid(),myTcb.getTid());
                 scheduler.deleteThread();
                 return OK;
-            }
-	    	return ERROR;
-
 
 	    case SLEEP:   // sleep a given period of milliseconds
 		scheduler.sleepThread( param ); // param = milliseconds

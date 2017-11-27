@@ -6,22 +6,23 @@ public class QueueNode {
 
     public QueueNode(){
 
-        queue = new Vector<>();
+        queue = new Vector<Integer>();
     }
 
     public synchronized int sleep() {
         if (this.queue.size() == 0){
             try {
-                this.wait();
+                wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+	return queue.remove(0);
         }
-        return this.queue.remove(0);
+        return -1;
     }
 
     public synchronized void wakeup(int tid){
-        this.queue.add(tid);
-        this.notify();
+        queue.add(tid);
+        notify();
     }
 }

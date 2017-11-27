@@ -21,7 +21,7 @@ public class SyncQueue {
     public int enqueueAndSleep(int condition) {
 
 
-        if (condition > 0 && condition < this.queues.length) return this.queues[condition].sleep();
+        if (condition > -1 && condition < this.queues.length) return queues[condition].sleep();
         else return -1;
 
     }
@@ -29,7 +29,7 @@ public class SyncQueue {
 
     public void dequeueAndWakeup(int condition, int tid){
 
-        if (condition > 0 && condition < queues.length)
+        if (condition > -1 && condition < queues.length)
             queues[condition].wakeup(tid);
 
     }
